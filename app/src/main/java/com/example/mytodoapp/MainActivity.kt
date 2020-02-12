@@ -1,13 +1,17 @@
 package com.example.mytodoapp
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
+import android.os.Bundle
+import android.text.TextPaint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,6 +84,25 @@ class MyArrayAdapter(context: Context, resource: Int) : ArrayAdapter<ListItem>(c
             // 削除ボタンをタップしたときの処理
             this.remove(listItem)
             this.notifyDataSetChanged()
+        }
+        viewHolder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+            // チェックボックスをチェックした時の処理
+            if (isChecked) {
+                // ONの処理
+                // 色を薄くする
+                viewHolder.titleView.setTextColor(Color.LTGRAY)
+                // 取り消し線を引く
+                val paint: TextPaint = viewHolder.titleView.paint
+                paint.flags = viewHolder.titleView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                paint.isAntiAlias = true
+            } else {
+                // OFFの処理
+                // 色を濃くする
+                viewHolder.titleView.setTextColor(Color.BLACK)
+                // 取り消し線を外す
+                val paint: TextPaint = viewHolder.titleView.paint
+                paint.flags = 0
+            }
         }
 
         return view!!
